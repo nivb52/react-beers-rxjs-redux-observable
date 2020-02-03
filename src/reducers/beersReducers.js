@@ -1,5 +1,9 @@
-import {FECTH_FULFILLED , FECTH_DATA, SET_STATUS} from './beersActions'
-
+import {
+  FECTH_FULFILLED,
+  SEARCH,
+  FECTH_DATA,
+  SET_STATUS
+} from "./beersActions";
 
 const initialState = {
   data: [],
@@ -12,19 +16,24 @@ export function beersReducer(state = initialState, action) {
       return {
         ...state,
         data: action.payload,
-        status : 'success'
-      };
-
-    case FECTH_DATA:
-      return {
-        ...state,
-        status : 'pending'
+        status: "success"
       };
 
     case SET_STATUS:
       return {
         ...state,
-        status : state.status
+        status: state.status
+      };
+
+    case FECTH_DATA:
+      return {
+        ...state,
+        status: "pending"
+      };
+
+    case SEARCH:
+      return {
+        ...state,
       };
 
     default:

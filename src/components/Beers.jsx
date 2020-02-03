@@ -1,19 +1,25 @@
+import "./beers.css";
+
 import React from "react";
 import { connect } from "react-redux";
-import {BeerList} from "./BeerList";
-import { fetchData } from "../reducers/beersActions";
-import './beers.css';
+import { BeerList } from "./BeerList";
+import { fetchData, search } from "../reducers/beersActions";
 
-export function Beers({ data, status, fetchData}) {
+export function Beers({ data, status, fetchData, search }) {
   return (
     <>
       <div className="App-inputs">
+        <input
+          type="text"
+          placeholder="Search beer"
+          onChange={e => search(e.target.value)}
+        />
         <button
           type="button"
           onClick={fetchData}
           disabled={status === "pending"}
         >
-          Fetch Beers!
+          Get Beers!
         </button>
 
         {status === "pending" && (
@@ -24,11 +30,11 @@ export function Beers({ data, status, fetchData}) {
       </div>
       {status === "success" && (
         <div className="App-content">
-          <BeerList beers={data}/>
+          <BeerList beers={data} />
         </div>
       )}
     </>
   );
 }
 
-export default connect(state => state.beers, {fetchData})(Beers);
+export default connect(state => state.beers, { fetchData, search })(Beers);
