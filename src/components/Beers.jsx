@@ -8,7 +8,7 @@ import { fetchData, search } from "../reducers/beersActions";
 export function Beers({ data, status, fetchData, search }) {
   return (
     <>
-      <div className="App-inputs">
+      <div className="App-inputs centered">
         <input
           type="text"
           placeholder="Search beer"
@@ -19,7 +19,7 @@ export function Beers({ data, status, fetchData, search }) {
           onClick={fetchData}
           disabled={status === "pending"}
         >
-          Get Beers!
+          Get All Beers!
         </button>
 
         {status === "pending" && (
