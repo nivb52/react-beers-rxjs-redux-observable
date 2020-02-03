@@ -44,7 +44,9 @@ export function searchBeerEpic(action$) {
     debounceTime(500),
     // prevent it from be null :
     filter(({ payload }) => payload.trim() !== ""),
+    // free bonus with switchMap : cancel on the fly
     switchMap(({ payload }) => {
+      //get together : setStatus and the Ajax call
       return concat(
         of(setStatus("pending")),
         ajax
