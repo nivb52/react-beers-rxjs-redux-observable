@@ -1,15 +1,25 @@
 import { ajax } from "rxjs/ajax";
-import { catchError, map } from "rxjs/operators";
-import { of } from "rxjs";
-import { fetchFulfilled } from "../reducers/beersActions";
+import { catchError, map, switchMap } from "rxjs/operators";
+import { of, concat } from "rxjs";
+import { fetchFulfilled, FECTH_DATA, setStatus } from "../reducers/beersActions";
+import { ofType } from "redux-observable";
 const API = `https://api.punkapi.com/v2/beers`;
 
-export function fetchBeersEpic() {
-  return ajax.getJSON(API).pipe(
-    map( beers => fetchFulfilled(beers)),
-    catchError(error => {
-      console.log('error: ', error);
-      return of(error);
+// stream of action
+export function fetchBeersEpic(action$) {
+  return action$.pipe(
+    ofType(FECTH_DATA),
+    switchMap( () => {
+      return concat(
+        of (setStatus("pending")),
+        ajax.getJSON(API).pipe(
+          map( beers  => fetchFulfilled(beers)),
+          catchError(error => {
+            console.log('error: ', error.message);            
+            return of (setStatus("failure"))
+          })
+        )
+      )
     })
-  );
+  )
 }

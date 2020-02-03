@@ -1,9 +1,9 @@
-import {FECTH_FULFILLED} from './beersActions'
+import {FECTH_FULFILLED , FECTH_DATA, SET_STATUS} from './beersActions'
 
 
 const initialState = {
   data: [],
-  loading: true
+  status: "idle" // "idle", "pending" , "succes" , "failure"
 };
 
 export function beersReducer(state = initialState, action) {
@@ -11,9 +11,22 @@ export function beersReducer(state = initialState, action) {
     case FECTH_FULFILLED:
       return {
         ...state,
-        loading: false,
-        data: action.payload
+        data: action.payload,
+        status : 'success'
       };
+
+    case FECTH_DATA:
+      return {
+        ...state,
+        status : 'pending'
+      };
+
+    case SET_STATUS:
+      return {
+        ...state,
+        status : state.status
+      };
+
     default:
       return state;
   }
