@@ -1,9 +1,10 @@
+import {FECTH_FULFILLED} from './beersActions'
+
+
 const initialState = {
   data: [],
   loading: true
 };
-
-const FECTH_FULFILLED = 'FETCH_FULIFILLED'
 
 export function beersReducer(state = initialState, action) {
   switch (action.type) {
