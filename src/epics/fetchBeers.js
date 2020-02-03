@@ -1,9 +1,16 @@
 import { ajax } from "rxjs/ajax";
-import { catchError, map, switchMap } from "rxjs/operators";
+import {
+  catchError,
+  map,
+  switchMap,
+  debounceTime,
+  filter
+} from "rxjs/operators";
 import { of, concat } from "rxjs";
 import {
   fetchFulfilled,
-  FECTH_DATA, SEARCH,
+  FECTH_DATA,
+  SEARCH,
   setStatus
 } from "../reducers/beersActions";
 
@@ -26,17 +33,23 @@ export function fetchBeersEpic(action$) {
           })
         )
       );
-    }))
+    })
+  );
 }
 
 export function searchBeerEpic(action$) {
   return action$.pipe(
     ofType(SEARCH),
+    // waiting user stop type : 
+    debounceTime(500),
+    // prevent it from be null :
+    filter(({ payload }) => payload.trim() !== ""),
     switchMap(({ payload }) => {
       return concat(
         of(setStatus("pending")),
-        ajax.getJSON(searchBeer(payload))
-        .pipe(map(beers => fetchFulfilled(beers)))
+        ajax
+          .getJSON(searchBeer(payload))
+          .pipe(map(beers => fetchFulfilled(beers)))
       );
     })
   );
