@@ -3,8 +3,6 @@ import { appReducer } from "./reducers/appReducer";
 // import reducer from './reducers'
 
 import { combineEpics, createEpicMiddleware } from "redux-observable";
-import { of } from "rxjs";
-import { delay } from "rxjs/operators";
 
 import { fetchBeersEpic } from "./epics/fetchBeers";
 
