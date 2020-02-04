@@ -3,20 +3,34 @@ export const FECTH_FAILED = "FETCH_FAILED";
 export const SET_STATUS = "SET_STATUS";
 export const FECTH_DATA = "FECTH_DATA";
 export const SEARCH = "SEARCH";
+export const CANCEL = "CANCEL";
 
-// action creator :
+// action creator `:
 export function setStatus(status) {
-    return {
-      type: SET_STATUS,
-      payload: status
-    };
-  }
-  
-  export function fetchData() {
-    return {
-      type: FECTH_DATA
-    };
-  }
+  return {
+    type: SET_STATUS,
+    payload: status
+  };
+}
+
+export function fetchCancel() {
+  return {
+    type: CANCEL
+  };
+}
+
+export function fetchData() {
+  return {
+    type: FECTH_DATA
+  };
+}
+
+export function search(term) {
+  return {
+    type: SEARCH,
+    payload: term
+  };
+}
 
 export function fetchFulfilled(beers) {
   return {
@@ -29,12 +43,5 @@ export function fetchFailed(error) {
   return {
     type: FECTH_FAILED,
     payload: error
-  };
-}
-
-export function search(term) {
-  return {
-    type: SEARCH,
-    payload: term
   };
 }

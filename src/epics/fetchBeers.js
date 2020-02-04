@@ -1,23 +1,26 @@
+import {
+  fetchFulfilled,
+  FECTH_DATA,
+  SEARCH,
+  CANCEL,
+  setStatus,
+  fetchFailed
+} from "../reducers/beersActions";
+import { of, concat } from "rxjs";
 import { ajax } from "rxjs/ajax";
 import {
   catchError,
   map,
   switchMap,
   debounceTime,
-  filter
+  filter,
+  takeUntil
 } from "rxjs/operators";
-import { of, concat } from "rxjs";
-import {
-  fetchFulfilled,
-  FECTH_DATA,
-  SEARCH,
-  setStatus,
-  fetchFailed
-} from "../reducers/beersActions";
-
 import { ofType } from "redux-observable";
+
+// API : 
 const API = `https://api.punkapi.com/v2/beers`;
-const searchBeer = term => `${API}?beer_name=${encodeURIComponent(term)}`;
+const API_SEARCH = term => `${API}?beer_name=${encodeURIComponent(term)}`;
 
 // stream of action
 export function fetchBeersEpic(action$) {
@@ -52,8 +55,10 @@ export function searchBeerEpic(action$) {
       return concat(
         of(setStatus("pending")),
         ajax
-          .getJSON(searchBeer(payload))
-          .pipe(map(res => fetchFulfilled(res)),
+          .getJSON(API_SEARCH(payload))
+          .pipe(
+            takeUntil(action$.pipe(ofType(CANCEL))),
+            map(res => fetchFulfilled(res)),
           // error handle : 
           catchError(error => {
             return of(setStatus("failure"), fetchFailed( error.response));

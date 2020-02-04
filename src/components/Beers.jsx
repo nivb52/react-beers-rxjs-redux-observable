@@ -3,9 +3,16 @@ import "./beers.css";
 import React from "react";
 import { connect } from "react-redux";
 import { BeerList } from "./BeerList";
-import { fetchData, search } from "../reducers/beersActions";
+import { fetchData, fetchCancel, search } from "../reducers/beersActions";
 
-export function Beers({ data, status, fetchData, search, errors }) {
+export function Beers({
+  data,
+  status,
+  fetchData,
+  fetchCancel,
+  search,
+  errors
+}) {
   return (
     <>
       <div className="App-inputs centered">
@@ -14,6 +21,12 @@ export function Beers({ data, status, fetchData, search, errors }) {
           placeholder="Search beer"
           onChange={e => search(e.target.value)}
         />
+        <button
+          type="button"
+          onClick={fetchCancel}
+        >
+          cancel
+        </button>
         <button
           type="button"
           onClick={fetchData}
@@ -42,4 +55,8 @@ export function Beers({ data, status, fetchData, search, errors }) {
   );
 }
 
-export default connect(state => state.beers, { fetchData, search })(Beers);
+export default connect(state => state.beers, {
+  fetchData,
+  fetchCancel,
+  search
+})(Beers);

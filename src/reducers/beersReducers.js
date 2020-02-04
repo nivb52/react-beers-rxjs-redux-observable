@@ -3,12 +3,13 @@ import {
   FECTH_FAILED,
   SEARCH,
   FECTH_DATA,
-  SET_STATUS
+  SET_STATUS,
+  CANCEL
 } from "./beersActions";
 
 const initialState = {
   data: [],
-  errors: [],
+  errors: [], // {text , code}
   status: "idle" // "idle", "pending" , "succes" , "failure"
 };
 
@@ -35,15 +36,22 @@ export function beersReducer(state = initialState, action) {
       };
 
     case FECTH_FAILED:
+      const {message, code} = action.payload
       return {
         ...state,
-        errors: [{ text: action.payload.message, code: action.payload.code }],
+        errors: [{ text: message, code }],
         status: "failure"
       };
 
     case SEARCH:
       return {
         ...state
+      };
+
+    case CANCEL:
+      return {
+        ...state,
+        status: "idle"
       };
 
     default:
