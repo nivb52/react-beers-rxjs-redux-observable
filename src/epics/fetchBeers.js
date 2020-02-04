@@ -11,7 +11,8 @@ import {
   fetchFulfilled,
   FECTH_DATA,
   SEARCH,
-  setStatus
+  setStatus,
+  fetchFailed
 } from "../reducers/beersActions";
 
 import { ofType } from "redux-observable";
@@ -26,17 +27,18 @@ export function fetchBeersEpic(action$) {
       return concat(
         of(setStatus("pending")),
         ajax.getJSON(API).pipe(
-          map(beers => fetchFulfilled(beers)),
+          map(res => fetchFulfilled(res)),
           catchError(error => {
-            console.log("error: ", error.message);
-            return of(setStatus("failure"));
+            console.log("error: ", error.response.message);
+            return of(setStatus("failure"), fetchFailed( error.response));
           })
         )
       );
     })
-  );
+  ); 
 }
 
+//added comments for others : but it just same logic as above
 export function searchBeerEpic(action$) {
   return action$.pipe(
     ofType(SEARCH),
@@ -51,7 +53,11 @@ export function searchBeerEpic(action$) {
         of(setStatus("pending")),
         ajax
           .getJSON(searchBeer(payload))
-          .pipe(map(beers => fetchFulfilled(beers)))
+          .pipe(map(res => fetchFulfilled(res)),
+          // error handle : 
+          catchError(error => {
+            return of(setStatus("failure"), fetchFailed( error.response));
+          }))
       );
     })
   );

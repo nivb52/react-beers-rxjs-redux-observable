@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { BeerList } from "./BeerList";
 import { fetchData, search } from "../reducers/beersActions";
 
-export function Beers({ data, status, fetchData, search }) {
+export function Beers({ data, status, fetchData, search, errors }) {
   return (
     <>
       <div className="App-inputs centered">
@@ -21,16 +21,20 @@ export function Beers({ data, status, fetchData, search }) {
         >
           Get All Beers!
         </button>
-
-        {status === "pending" && (
-          <span className="App-spinner">
-            <img src={"/loader.gif"} width="50" alt="loading" />
-          </span>
-        )}
       </div>
+      {status === "pending" && (
+        <span className="App-spinner centered">
+          <img src={"/loader.gif"} width="100" alt="loading" />
+        </span>
+      )}
       {status === "success" && (
         <div className="App-content">
           <BeerList beers={data} />
+        </div>
+      )}
+      {status === "failure" && (
+        <div className="App-content centered">
+          <p> Oops! {errors && errors[0].text} </p>
         </div>
       )}
     </>
