@@ -1,6 +1,6 @@
 import "./beers.css";
 
-import React from "react";
+import React , {useState} from "react";
 import { connect } from "react-redux";
 import { BeerList } from "./BeerList";
 import { fetchData, fetchCancel, search } from "../reducers/beersActions";
@@ -13,18 +13,22 @@ export function Beers({
   search,
   errors
 }) {
+  const [searching, setSearching] = useState(false);
+
+  const doSearch = e => {
+    setSearching(true);
+    search(e.target.value);
+  };
+
   return (
     <>
       <div className="App-inputs centered">
         <input
           type="text"
           placeholder="Search beer"
-          onChange={e => search(e.target.value)}
+          onChange={e => doSearch(e)}
         />
-        <button
-          type="button"
-          onClick={fetchCancel}
-        >
+        <button type="button" onClick={fetchCancel} hidden={!searching}>
           cancel
         </button>
         <button

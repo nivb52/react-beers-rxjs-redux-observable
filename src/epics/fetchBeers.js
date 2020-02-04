@@ -6,7 +6,7 @@ import {
   setStatus,
   fetchFailed
 } from "../reducers/beersActions";
-import { of, concat } from "rxjs";
+import { of, concat, fromEvent, merge } from "rxjs";
 import { ajax } from "rxjs/ajax";
 import {
   catchError,
@@ -14,11 +14,11 @@ import {
   switchMap,
   debounceTime,
   filter,
-  takeUntil
+  takeUntil, delay
 } from "rxjs/operators";
 import { ofType } from "redux-observable";
 
-// API : 
+// API :
 const API = `https://api.punkapi.com/v2/beers`;
 const API_SEARCH = term => `${API}?beer_name=${encodeURIComponent(term)}`;
 
@@ -33,36 +33,40 @@ export function fetchBeersEpic(action$) {
           map(res => fetchFulfilled(res)),
           catchError(error => {
             console.log("error: ", error.response.message);
-            return of(setStatus("failure"), fetchFailed( error.response));
+            return of(setStatus("failure"), fetchFailed(error.response));
           })
         )
       );
     })
-  ); 
+  );
 }
 
 //added comments for others : but it just same logic as above
 export function searchBeerEpic(action$) {
   return action$.pipe(
     ofType(SEARCH),
-    // waiting user stop type : 
+    // waiting user stop type :
     debounceTime(500),
     // prevent it from be null :
     filter(({ payload }) => payload.trim() !== ""),
     // free bonus with switchMap : cancel on the fly
     switchMap(({ payload }) => {
+      //
+      // define CANCEL option:
+      const blockers$ =  action$.pipe(ofType(CANCEL))
+      //
       //get together : setStatus and the Ajax call
       return concat(
         of(setStatus("pending")),
-        ajax
-          .getJSON(API_SEARCH(payload))
-          .pipe(
-            takeUntil(action$.pipe(ofType(CANCEL))),
-            map(res => fetchFulfilled(res)),
-          // error handle : 
+        ajax.getJSON(API_SEARCH(payload))
+        .pipe(
+          takeUntil(blockers$),
+          map(res => fetchFulfilled(res)),
+          // error handle :
           catchError(error => {
-            return of(setStatus("failure"), fetchFailed( error.response));
-          }))
+            return of(setStatus("failure"), fetchFailed(error.response));
+          })
+        )
       );
     })
   );
