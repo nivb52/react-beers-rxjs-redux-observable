@@ -1,6 +1,6 @@
 import "./beers.css";
 
-import React , {useState} from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { BeerList } from "./BeerList";
 import { fetchData, fetchCancel, search } from "../reducers/beersActions";
@@ -13,11 +13,14 @@ export function Beers({
   search,
   errors
 }) {
-  const [searching, setSearching] = useState(false);
 
+  //::::::::::
   const doSearch = e => {
-    setSearching(true);
     search(e.target.value);
+  };
+
+  const cancel = () => {
+    fetchCancel();
   };
 
   return (
@@ -28,7 +31,10 @@ export function Beers({
           placeholder="Search beer"
           onChange={e => doSearch(e)}
         />
-        <button type="button" onClick={fetchCancel} hidden={!searching}>
+        <button
+          type="button"
+          onClick={() => cancel()}
+        >
           cancel
         </button>
         <button
@@ -36,7 +42,7 @@ export function Beers({
           onClick={fetchData}
           disabled={status === "pending"}
         >
-          Get All Beers!
+          get all beers!
         </button>
       </div>
       {status === "pending" && (
@@ -46,8 +52,7 @@ export function Beers({
       )}
       {status === "success" && (
         <div className="App-content">
-          {data[0] && <BeerList beers={data} />}
-          {!data[0] && <p className="centered"> No beers found </p>}
+          {data && <BeerList beers={data} />}
         </div>
       )}
       {status === "failure" && (
