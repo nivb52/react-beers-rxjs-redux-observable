@@ -1,10 +1,11 @@
 import {
-  FECTH_FULFILLED,
-  FECTH_FAILED,
+  FETCH_FULFILLED,
+  FETCH_FAILED,
   SEARCH,
-  FECTH_DATA,
+  FETCH_DATA,
   SET_STATUS,
-  CANCEL
+  CANCEL,
+  RESET
 } from "./beersActions";
 
 const initialState = {
@@ -18,16 +19,16 @@ export function beersReducer(state = initialState, action) {
     case SET_STATUS:
       return {
         ...state,
-        status: state.status
+        status: action.payload
       };
 
-    case FECTH_DATA:
+    case FETCH_DATA:
       return {
         ...state,
         status: "pending"
       };
 
-    case FECTH_FULFILLED:
+    case FETCH_FULFILLED:
       return {
         ...state,
         data: action.payload,
@@ -35,8 +36,11 @@ export function beersReducer(state = initialState, action) {
         status: "success"
       };
 
-    case FECTH_FAILED:
-      const {message, code} = action.payload
+    case FETCH_FAILED:
+      const { message, code } =
+        action && action.payload
+          ? action.payload
+          : { message: "unknowen error, check your connection", code: "#000" };
       return {
         ...state,
         errors: [{ text: message, code }],
@@ -49,9 +53,11 @@ export function beersReducer(state = initialState, action) {
       };
 
     case CANCEL:
+    case RESET:
       return {
         ...state,
-        status: "idle"
+        status: "idle",
+        errors: []
       };
 
     default:

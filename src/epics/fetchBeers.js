@@ -1,39 +1,45 @@
 import {
   fetchFulfilled,
-  FECTH_DATA,
+  FETCH_DATA,
   SEARCH,
   CANCEL,
   setStatus,
-  fetchFailed
+  fetchFailed,
+  fetchCancel,
 } from "../reducers/beersActions";
-import { of, concat, fromEvent, merge } from "rxjs";
+import { of, concat, fromEvent, merge, race } from "rxjs";
 import { ajax } from "rxjs/ajax";
 import {
   catchError,
   map,
   switchMap,
   debounceTime,
-  filter,
-  takeUntil, delay
+  filter, mapTo,
+  takeUntil,
+  timeout,
 } from "rxjs/operators";
 import { ofType } from "redux-observable";
-
 // API :
 const API = `https://api.punkapi.com/v2/beers`;
 const API_SEARCH = term => `${API}?beer_name=${encodeURIComponent(term)}`;
 
-// stream of action
+// ::::::::::::::::
+// stream of action functions : 
+// each function get action$, state$
+// ::::::::::::::::
+
+
 export function fetchBeersEpic(action$) {
   return action$.pipe(
-    ofType(FECTH_DATA),
+    ofType(FETCH_DATA),
     switchMap(() => {
       return concat(
         of(setStatus("pending")),
         ajax.getJSON(API).pipe(
           map(res => fetchFulfilled(res)),
-          catchError(error => {
-            console.log("error: ", error.response.message);
-            return of(setStatus("failure"), fetchFailed(error.response));
+          timeout(5000),
+          catchError(err => {
+            return of(fetchFailed(err.response));
           })
         )
       );
@@ -47,27 +53,27 @@ export function searchBeerEpic(action$) {
     ofType(SEARCH),
     // waiting user stop type :
     debounceTime(500),
-    // prevent it from be null :
     filter(({ payload }) => payload.trim() !== ""),
     // free bonus with switchMap : cancel on the fly
     switchMap(({ payload }) => {
-      //
+      //define Ajax:
+      const ajax$ = ajax.getJSON(API_SEARCH(payload)).pipe(
+        timeout(5000),
+        map(res => fetchFulfilled(res)),
+        catchError(error => {
+          return of(fetchFailed(error.response));
+        })
+      );
       // define CANCEL option:
-      const blockers$ =  action$.pipe(ofType(CANCEL))
-      //
+      const blocker$ =  
+        action$.pipe(ofType(CANCEL)
+      );
+
       //get together : setStatus and the Ajax call
       return concat(
         of(setStatus("pending")),
-        ajax.getJSON(API_SEARCH(payload))
-        .pipe(
-          takeUntil(blockers$),
-          map(res => fetchFulfilled(res)),
-          // error handle :
-          catchError(error => {
-            return of(setStatus("failure"), fetchFailed(error.response));
-          })
-        )
-      );
+        race(ajax$, blocker$)
+      )
     })
   );
 }

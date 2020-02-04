@@ -1,9 +1,10 @@
-export const FECTH_FULFILLED = "FETCH_FULIFILLED";
-export const FECTH_FAILED = "FETCH_FAILED";
+export const FETCH_FULFILLED = "FETCH_FULIFILLED";
+export const FETCH_FAILED = "FETCH_FAILED";
 export const SET_STATUS = "SET_STATUS";
-export const FECTH_DATA = "FECTH_DATA";
+export const FETCH_DATA = "FECTH_DATA";
 export const SEARCH = "SEARCH";
 export const CANCEL = "CANCEL";
+export const RESET = "RESET";
 
 // action creator `:
 export function setStatus(status) {
@@ -14,14 +15,21 @@ export function setStatus(status) {
 }
 
 export function fetchCancel() {
+  console.log('fetch cancel action');
   return {
     type: CANCEL
   };
 }
 
+export function fetchReset() {
+  return {
+    type: RESET
+  };
+}
+
 export function fetchData() {
   return {
-    type: FECTH_DATA
+    type: FETCH_DATA
   };
 }
 
@@ -34,14 +42,14 @@ export function search(term) {
 
 export function fetchFulfilled(beers) {
   return {
-    type: FECTH_FULFILLED,
+    type: FETCH_FULFILLED,
     payload: beers
   };
 }
 
 export function fetchFailed(error) {
   return {
-    type: FECTH_FAILED,
+    type: FETCH_FAILED,
     payload: error
   };
 }
