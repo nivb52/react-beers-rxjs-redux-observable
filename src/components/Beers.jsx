@@ -29,7 +29,8 @@ export function Beers({ data, status, fetchData, search, errors }) {
       )}
       {status === "success" && (
         <div className="App-content">
-          <BeerList beers={data} />
+          {data[0] && <BeerList beers={data} />}
+          {!data[0] && <p className="centered"> No beers found </p>}
         </div>
       )}
       {status === "failure" && (
