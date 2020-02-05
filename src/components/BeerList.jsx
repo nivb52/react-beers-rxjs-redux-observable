@@ -20,7 +20,7 @@ export function BeerList({ beers }) {
                   </li>
                   <li>
                     <small>
-                      Volume: {beer.volume.unit} {beer.volume.unit}
+                      Volume: {beer.volume.value} {beer.volume.unit}
                     </small>
                   </li>
                 </ul>
