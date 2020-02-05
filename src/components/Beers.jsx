@@ -32,19 +32,7 @@ export function Beers({ data, status, fetchData, setStatus,fetchCancel, search, 
   return (
     <>
       <div className="App-inputs centered">
-        <select
-          name="per-page"
-          defaultValue={10}
-          onChange={e => select(e.target.value)}
-        >
-          {[1, 5, 10, 15, 20, 25].map(value => {
-            return (
-              <option key={value} value={value}>
-                {value} results
-              </option>
-            );
-          })}
-        </select>
+       
         <input
           type="text"
           placeholder="Search beer"
