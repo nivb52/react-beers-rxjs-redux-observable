@@ -5,15 +5,18 @@ import {
   FETCH_DATA,
   SET_STATUS,
   CANCEL,
+  RESULT_PER_PAGE,
 } from "./beersActions";
 
 const initialState = {
   data: [],
   errors: [], // {text , code}
+  resulatPerPage: 10,
   status: "idle" // "idle", "pending" , "succes" , "failure"
 };
 
 export function beersReducer(state = initialState, action) {
+  console.log(action)
   switch (action.type) {
     case SET_STATUS:
       return {
@@ -51,13 +54,20 @@ export function beersReducer(state = initialState, action) {
         ...state
       };
 
+    case RESULT_PER_PAGE:
+    console.log('select RESULT_PER_PAGE',action.payload,' results');
+      return {
+        ...state,
+        resulatPerPage: action.payload
+      };
+
     case CANCEL:
       return {
         ...state,
         errors: [],
         status: "cancel",
       };
-
+      
     default:
       return state;
   }

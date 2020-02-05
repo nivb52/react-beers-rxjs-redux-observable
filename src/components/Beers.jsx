@@ -3,29 +3,30 @@ import "./beers.css";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { BeerList } from "./BeerList";
-import { fetchData, fetchCancel, search } from "../reducers/beersActions";
-
-export function Beers({
-  data,
-  status,
+import {
   fetchData,
-  fetchCancel,
-  search,
-  errors
-}) {
+  setStatus,
+  search, fetchCancel,
+  selectResultPerPage
+} from "../reducers/beersActions";
+
+export function Beers({ data, status, fetchData, setStatus,fetchCancel, search, errors }) {
   //::::::::::
   const [isSearching, setIsSearching] = useState(false);
 
   const doSearch = e => {
     search(e.target.value);
-    setTimeout(() => {
-      setIsSearching(true);
-    }, 400);
+    setIsSearching(true);
   };
 
   const cancel = () => {
-    fetchCancel();
+    fetchCancel()
     setIsSearching(false);
+  };
+
+  const select = number => {
+    console.log("select ", number, " results");
+    selectResultPerPage(number);
   };
 
   return (
@@ -34,12 +35,11 @@ export function Beers({
         <select
           name="per-page"
           defaultValue={10}
-          onChange={e => console.log(e.target.value)}
+          onChange={e => select(e.target.value)}
         >
           {[1, 5, 10, 15, 20, 25].map(value => {
             return (
               <option key={value} value={value}>
-                {" "}
                 {value} results
               </option>
             );
@@ -84,6 +84,7 @@ export function Beers({
 
 export default connect(state => state.beers, {
   fetchData,
-  fetchCancel,
-  search
+  setStatus,
+  search, fetchCancel,
+  selectResultPerPage
 })(Beers);

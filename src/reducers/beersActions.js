@@ -4,6 +4,9 @@ export const SET_STATUS = "SET_STATUS";
 export const FETCH_DATA = "FECTH_DATA";
 export const SEARCH = "SEARCH";
 export const CANCEL = "CANCEL";
+export const RESET = "RESET";
+export const PENDING = "PENDING";
+export const RESULT_PER_PAGE = "RESULT_PER_PAGE";
 
 // action creator `:
 export function setStatus(status) {
@@ -29,6 +32,14 @@ export function search(term) {
   return {
     type: SEARCH,
     payload: term
+  };
+}
+
+export function selectResultPerPage(number) {
+  console.log('select ',number,' results');
+  return {
+    type: RESULT_PER_PAGE,
+    payload: number
   };
 }
 
