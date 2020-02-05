@@ -1,6 +1,6 @@
 import "./beers.css";
 
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { BeerList } from "./BeerList";
 import { fetchData, fetchCancel, search } from "../reducers/beersActions";
@@ -14,24 +14,47 @@ export function Beers({
   errors
 }) {
   //::::::::::
+  const [isSearching, setIsSearching] = useState(false);
+
   const doSearch = e => {
     search(e.target.value);
+    setTimeout(() => {
+      setIsSearching(true);
+    }, 400);
   };
 
   const cancel = () => {
     fetchCancel();
+    setIsSearching(false);
   };
 
   return (
     <>
       <div className="App-inputs centered">
-        
+        <select
+          name="per-page"
+          defaultValue={10}
+          onChange={e => console.log(e.target.value)}
+        >
+          {[1, 5, 10, 15, 20, 25].map(value => {
+            return (
+              <option key={value} value={value}>
+                {" "}
+                {value} results
+              </option>
+            );
+          })}
+        </select>
         <input
           type="text"
           placeholder="Search beer"
           onChange={e => doSearch(e)}
         />
-        <button type="button" onClick={() => cancel()}>
+        <button
+          type="button"
+          onClick={() => cancel()}
+          hidden={status !== "success" && status !== "failure" && !isSearching}
+        >
           cancel
         </button>
         <button
@@ -52,7 +75,7 @@ export function Beers({
       )}
       {status === "failure" && (
         <div className="App-content centered">
-          <p> Oops! {errors && errors[0].text} </p>
+          <p> Oops! {errors && errors[0] && errors[0].text} </p>
         </div>
       )}
     </>
