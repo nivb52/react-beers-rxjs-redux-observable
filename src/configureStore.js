@@ -5,10 +5,10 @@ import { beersReducer } from "./reducers/beersReducers";
 
 import { combineEpics, createEpicMiddleware } from "redux-observable";
 
-import { fetchBeersEpic, searchBeerEpic } from "./epics/fetchBeers";
+import { fetchBeerEpic, searchBeerEpic, resetBeerEpic } from "./epics/fetchBeers";
 
 export function configureStore() {
-  const rootEpic = combineEpics(fetchBeersEpic, searchBeerEpic);
+  const rootEpic = combineEpics(fetchBeerEpic, searchBeerEpic, resetBeerEpic);
 
   const epicMiddleware = createEpicMiddleware();
 
