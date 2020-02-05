@@ -6,14 +6,14 @@ import { BeerList } from "./BeerList";
 import {
   fetchData,
    search, fetchCancel,
-  selectResultPerPage
+   presistConfig
 } from "../reducers/beersActions";
 
-export function Beers({ data, status, fetchData, fetchCancel, selectResultPerPage,  search, errors }) {
+export function Beers({ data, status, fetchData, fetchCancel, presistConfig,  search, errors }) {
   //::::::::::
   const [isSearching, setIsSearching] = useState(false);
 
-  const doSearch = e => {
+  const onSearch = e => {
     search(e.target.value);
     setIsSearching(true);
   };
@@ -24,8 +24,7 @@ export function Beers({ data, status, fetchData, fetchCancel, selectResultPerPag
   };
 
   const onSelect = number => {
-    console.log("select ", number, " results");
-    selectResultPerPage(number);
+    presistConfig('perPage',number);
   };
 
   return (
@@ -36,7 +35,7 @@ export function Beers({ data, status, fetchData, fetchCancel, selectResultPerPag
           defaultValue={10}
           onChange={e => onSelect(e.target.value)}
         >
-          { Array.from({length: 10}, (val, i) => (i+1) * 5).map(value => {
+          { Array.from({length: 10}, (v, i) => (i+1) * 5).map(value => {
             return (
               <option key={value} value={value}>
                 {value} results
@@ -47,7 +46,7 @@ export function Beers({ data, status, fetchData, fetchCancel, selectResultPerPag
         <input
           type="text"
           placeholder="Search beer"
-          onChange={e => doSearch(e)}
+          onChange={e => onSearch(e)}
         />
         <button
           type="button"
@@ -84,5 +83,5 @@ export function Beers({ data, status, fetchData, fetchCancel, selectResultPerPag
 export default connect(state => state.beers, {
   fetchData,
   search, fetchCancel,
-  selectResultPerPage
+  presistConfig
 })(Beers);

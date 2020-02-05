@@ -5,16 +5,24 @@ import {
   FETCH_DATA,
   SET_STATUS,
   CANCEL,
-  RESULT_PER_PAGE,
+  CONFIG,
+  OPTIONS
 } from "./beersActions";
 
+
+/// :::::::::::::::::::::::::::::::
+// initialState
+/// :::::::::::::::::::::::::::::::
 const initialState = {
   data: [],
   errors: [], // {text , code}
-  resultPerPage: 10,
-  status: "idle" // "idle", "pending" , "succes" , "failure"
+  [OPTIONS.perPage]: 10,
+  status: "idle" // "idle", "pending" , "succes" , "failure", "cancel"
 };
 
+/// :::::::::::::::::::::::::::::::
+// beersReducer
+/// :::::::::::::::::::::::::::::::
 export function beersReducer(state = initialState, action) {
   console.log(action)
   switch (action.type) {
@@ -42,7 +50,7 @@ export function beersReducer(state = initialState, action) {
       const { message, code } =
         action && action.payload
           ? action.payload
-          : { message: "unknown error, check your connection", code: "#000" };
+          : { message: "unknown error, check your connection", code: "000" };
       return {
         ...state,
         errors: [{ text: message, code }],
@@ -54,10 +62,11 @@ export function beersReducer(state = initialState, action) {
         ...state
       };
 
-    case RESULT_PER_PAGE:
+    case CONFIG:
+      const [key , value] = action.payload
       return {
         ...state,
-        resultPerPage: action.payload
+        [key]: value
       };
 
     case CANCEL:

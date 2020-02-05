@@ -1,16 +1,19 @@
 export const FETCH_FULFILLED = "FETCH_FULIFILLED";
 export const FETCH_FAILED = "FETCH_FAILED";
 export const FETCH_DATA = "FECTH_DATA";
-export const RESULT_PER_PAGE = "RESULT_PER_PAGE";
 export const SET_STATUS = "SET_STATUS";
 // STATUS :
 export const SEARCH = "SEARCH";
 export const CANCEL = "CANCEL";
 export const RESET = "RESET";
 export const PENDING = "PENDING";
+// CONFIG :
+export const CONFIG = "CONFIG";
+export const OPTIONS = {};
+OPTIONS.perPage = "perPage";
 
-// action creator `:
-
+// :::::::::::::::::::::::::::::::::::
+// action creator :
 export function search(term) {
   return {
     type: SEARCH,
@@ -18,10 +21,10 @@ export function search(term) {
   };
 }
 
-export function selectResultPerPage(number) {
+export function presistConfig(key,value = null) {
   return {
-    type: RESULT_PER_PAGE,
-    payload: number
+    type: CONFIG,
+    payload: [key,value]
   };
 }
 
