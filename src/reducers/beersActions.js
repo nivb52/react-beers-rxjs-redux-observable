@@ -14,7 +14,6 @@ export function setStatus(status) {
 }
 
 export function fetchCancel() {
-  console.log('fetch cancel action');
   return {
     type: CANCEL
   };

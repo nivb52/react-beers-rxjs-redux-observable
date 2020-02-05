@@ -54,8 +54,8 @@ export function beersReducer(state = initialState, action) {
     case CANCEL:
       return {
         ...state,
-        status: "idle",
-        errors: []
+        errors: [],
+        status: "cancel",
       };
 
     default:
