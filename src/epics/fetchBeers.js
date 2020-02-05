@@ -3,11 +3,12 @@ import {
   FETCH_DATA,
   SEARCH,
   PENDING,
+  RESULT_PER_PAGE,
   CANCEL,
-  setStatus,
-  fetchFailed
+  fetchFailed, 
+  setStatus, fetchCancel
 } from "../reducers/beersActions";
-import { of, concat, race } from "rxjs";
+import { of, concat, race, fromEvent } from "rxjs";
 import { ajax } from "rxjs/ajax";
 import {
   catchError,
@@ -16,8 +17,7 @@ import {
   debounceTime,
   filter,
   timeout,
-  delay,
-  takeUntil,
+  merge, mapTo, take, 
 } from "rxjs/operators";
 import { ofType } from "redux-observable";
 // API :
@@ -59,17 +59,16 @@ export function searchBeerEpic(action$) {
     switchMap(({ payload }) => {
       //define Ajax:
       const ajax$ = ajax.getJSON(API_SEARCH(payload)).pipe(
-        delay(3000),
+
         // define CANCEL option:
-        takeUntil(CANCEL),
         map(res => fetchFulfilled(res)),
         catchError(error => {
           return of(fetchFailed(error.response));
         })
       );
-
+     const blocker$ =  action$.pipe(ofType(CANCEL), take(1), mapTo(fetchCancel()))
       // get together : setStatus and the Ajax call
-      return race(ajax$) // complete the chain immediately
+      return race(ajax$, blocker$) // complete the chain immediately
     })
   );
 }
@@ -78,6 +77,14 @@ export function searchBeerEpic(action$) {
 export function resetBeerEpic(action$) {
   return action$.pipe(
     ofType(CANCEL),
+    switchMap(() =>
+    of(setStatus('idle'))
+    ))
+  }
+  
+export function perPageBeerEpic(action$) {
+  return action$.pipe(
+    ofType(RESULT_PER_PAGE),
     switchMap(() =>
     of(setStatus('idle'))
     ))
