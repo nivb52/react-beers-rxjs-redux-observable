@@ -11,7 +11,7 @@ import {
 const initialState = {
   data: [],
   errors: [], // {text , code}
-  resulatPerPage: 10,
+  resultPerPage: 10,
   status: "idle" // "idle", "pending" , "succes" , "failure"
 };
 
@@ -55,10 +55,9 @@ export function beersReducer(state = initialState, action) {
       };
 
     case RESULT_PER_PAGE:
-    console.log('select RESULT_PER_PAGE',action.payload,' results');
       return {
         ...state,
-        resulatPerPage: action.payload
+        resultPerPage: action.payload
       };
 
     case CANCEL:
