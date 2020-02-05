@@ -13,7 +13,6 @@ export function Beers({
   search,
   errors
 }) {
-
   //::::::::::
   const doSearch = e => {
     search(e.target.value);
@@ -26,15 +25,13 @@ export function Beers({
   return (
     <>
       <div className="App-inputs centered">
+        
         <input
           type="text"
           placeholder="Search beer"
           onChange={e => doSearch(e)}
         />
-        <button
-          type="button"
-          onClick={() => cancel()}
-        >
+        <button type="button" onClick={() => cancel()}>
           cancel
         </button>
         <button
@@ -51,9 +48,7 @@ export function Beers({
         </span>
       )}
       {status === "success" && (
-        <div className="App-content">
-          {data && <BeerList beers={data} />}
-        </div>
+        <div className="App-content">{data && <BeerList beers={data} />}</div>
       )}
       {status === "failure" && (
         <div className="App-content centered">
