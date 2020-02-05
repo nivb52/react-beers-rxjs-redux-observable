@@ -8,7 +8,6 @@ import {
   fetchFailed,
   setStatus,
   fetchCancel,
-  resultPerPage
 } from "../reducers/beersActions";
 import { of, concat, race } from "rxjs";
 import { ajax } from "rxjs/ajax";
@@ -20,7 +19,9 @@ import {
   filter,
   timeout,
   mapTo,
-  take
+  take,
+  withLatestFrom,
+  pluck, tap
 } from "rxjs/operators";
 import { ofType } from "redux-observable";
 // API :
@@ -54,16 +55,17 @@ export function fetchBeerEpic(action$) {
 }
 
 //added comments for others : but it just same logic as above
-export function searchBeerEpic(action$) {
+export function searchBeerEpic(action$, state$) {
   return action$.pipe(
     ofType(SEARCH),
     // waiting user stop type :
     debounceTime(500),
     filter(({ payload }) => payload.trim() !== ""),
-    // free bonus with switchMap : cancel on the fly
-    switchMap(({ payload }) => {
+    withLatestFrom(state$.pipe(pluck('beers','resultPerPage'))),
+    // we get action and state and we destructre action to payload
+    switchMap( ([{ payload }, n]) => {
       //define Ajax:
-      const ajax$ = ajax.getJSON(API_SEARCH(payload)).pipe(
+      const ajax$ = ajax.getJSON(API_SEARCH(payload) + PER_PAGE + n).pipe(
         // define CANCEL option:
         map(res => fetchFulfilled(res)),
         catchError(error => {
