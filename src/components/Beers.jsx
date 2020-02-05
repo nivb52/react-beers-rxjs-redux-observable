@@ -5,12 +5,11 @@ import { connect } from "react-redux";
 import { BeerList } from "./BeerList";
 import {
   fetchData,
-  setStatus,
-  search, fetchCancel,
+   search, fetchCancel,
   selectResultPerPage
 } from "../reducers/beersActions";
 
-export function Beers({ data, status, fetchData, setStatus,fetchCancel, search, errors }) {
+export function Beers({ data, status, fetchData, fetchCancel, search, errors }) {
   //::::::::::
   const [isSearching, setIsSearching] = useState(false);
 
@@ -24,15 +23,12 @@ export function Beers({ data, status, fetchData, setStatus,fetchCancel, search, 
     setIsSearching(false);
   };
 
-  const select = number => {
-    console.log("select ", number, " results");
-    selectResultPerPage(number);
-  };
+  
 
   return (
     <>
       <div className="App-inputs centered">
-       
+      
         <input
           type="text"
           placeholder="Search beer"
@@ -72,7 +68,6 @@ export function Beers({ data, status, fetchData, setStatus,fetchCancel, search, 
 
 export default connect(state => state.beers, {
   fetchData,
-  setStatus,
   search, fetchCancel,
   selectResultPerPage
 })(Beers);
