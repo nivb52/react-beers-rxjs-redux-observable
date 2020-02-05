@@ -5,17 +5,15 @@ import {
   CANCEL,
   setStatus,
   fetchFailed,
-  fetchCancel,
 } from "../reducers/beersActions";
-import { of, concat, fromEvent, merge, race } from "rxjs";
+import { of, concat, race } from "rxjs";
 import { ajax } from "rxjs/ajax";
 import {
   catchError,
   map,
   switchMap,
   debounceTime,
-  filter, mapTo,
-  takeUntil,
+  filter, 
   timeout,
 } from "rxjs/operators";
 import { ofType } from "redux-observable";

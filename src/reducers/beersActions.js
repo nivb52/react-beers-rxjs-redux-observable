@@ -4,7 +4,6 @@ export const SET_STATUS = "SET_STATUS";
 export const FETCH_DATA = "FECTH_DATA";
 export const SEARCH = "SEARCH";
 export const CANCEL = "CANCEL";
-export const RESET = "RESET";
 
 // action creator `:
 export function setStatus(status) {
@@ -18,12 +17,6 @@ export function fetchCancel() {
   console.log('fetch cancel action');
   return {
     type: CANCEL
-  };
-}
-
-export function fetchReset() {
-  return {
-    type: RESET
   };
 }
 

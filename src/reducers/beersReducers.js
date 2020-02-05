@@ -5,7 +5,6 @@ import {
   FETCH_DATA,
   SET_STATUS,
   CANCEL,
-  RESET
 } from "./beersActions";
 
 const initialState = {
@@ -40,7 +39,7 @@ export function beersReducer(state = initialState, action) {
       const { message, code } =
         action && action.payload
           ? action.payload
-          : { message: "unknowen error, check your connection", code: "#000" };
+          : { message: "unknown error, check your connection", code: "#000" };
       return {
         ...state,
         errors: [{ text: message, code }],
@@ -53,7 +52,6 @@ export function beersReducer(state = initialState, action) {
       };
 
     case CANCEL:
-    case RESET:
       return {
         ...state,
         status: "idle",
