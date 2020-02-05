@@ -9,7 +9,7 @@ import {
   selectResultPerPage
 } from "../reducers/beersActions";
 
-export function Beers({ data, status, fetchData, fetchCancel, search, errors }) {
+export function Beers({ data, status, fetchData, fetchCancel, selectResultPerPage,  search, errors }) {
   //::::::::::
   const [isSearching, setIsSearching] = useState(false);
 
@@ -23,12 +23,27 @@ export function Beers({ data, status, fetchData, fetchCancel, search, errors }) 
     setIsSearching(false);
   };
 
-  
+  const onSelect = number => {
+    console.log("select ", number, " results");
+    selectResultPerPage(number);
+  };
 
   return (
     <>
       <div className="App-inputs centered">
-      
+        <select
+          name="per-page"
+          defaultValue={10}
+          onChange={e => onSelect(e.target.value)}
+        >
+          { Array.from({length: 10}, (val, i) => (i+1) * 5).map(value => {
+            return (
+              <option key={value} value={value}>
+                {value} results
+              </option>
+            );
+          })}
+        </select>
         <input
           type="text"
           placeholder="Search beer"
@@ -46,7 +61,7 @@ export function Beers({ data, status, fetchData, fetchCancel, search, errors }) 
           onClick={fetchData}
           disabled={status === "pending"}
         >
-          get all beers!
+          get some beers!
         </button>
       </div>
       {status === "pending" && (
