@@ -1,20 +1,21 @@
+// :::::::::::::::::::::::::::::::::::
 // TYPES :
 export const SET_CONFIG = "SET_CONFIG";
+export const OPTIONS = "OPTIONS";
+export const OPTIONS_CACHE_KEY = "ajaxOpts";
 
-// THE OPTIONS : 
-export const OPTIONS = 'OPTIONS';
 export const OPT = {};
-OPT.perPage = "perPage";
+// AJAX STRING OPTIONS:
+OPT.perPage = "&per_page=";
 OPT.firstBrewed = "firstBrewed";
-
+//
 // :::::::::::::::::::::::::::::::::::
 // action creator :
 
 export function saveConfig(key, value = null) {
-    return {
-      type: SET_CONFIG,
-      payload: [key,value]
-    };
-  }
- 
-  
+  const opts = OPT[key] + value;
+  return {
+    type: SET_CONFIG,
+    payload: [key,opts]
+  };
+}

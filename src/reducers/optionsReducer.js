@@ -1,19 +1,21 @@
-import { SET_CONFIG, OPT, OPTIONS } from "./optionsActions";
+import { SET_CONFIG, OPTIONS_CACHE_KEY } from "./optionsActions";
 
-const PER_PAGE = `&per_page=`;
 const initialState = {
-  // 'options' :
-  [OPTIONS]: {[OPT.perPage]: `${PER_PAGE}10`} // default
+  params: { perPage: "&per_page=10" } // default
+  // beerAPI ...
 };
-
+//   const keyString = OPT[key].split("=");
+//   console.log("keyString: ", keyString);
 export function optionsReducer(state = initialState, action) {
   switch (action.type) {
-
     case SET_CONFIG:
-      let [key, value] = action.payload;
+      let [optKey, value] = action.payload;
+      if (!action.payload || !action.payload[0]) return { ...state };
       return {
-        ...state,
-        [key]: value
+        params: {
+          ...state.params,
+          [optKey]: value
+        }
       };
 
     default:
