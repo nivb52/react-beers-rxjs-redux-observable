@@ -3,7 +3,7 @@ import { combineEpics, createEpicMiddleware } from "redux-observable";
 
 // import reducer:
 import { appReducer } from "./reducers/appReducer";
-import { beersReducer } from "./reducers/beersReducers";
+import { beersReducer } from "./reducers/beersReducer";
 
 
 import {
