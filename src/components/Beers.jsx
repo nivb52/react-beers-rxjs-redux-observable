@@ -47,9 +47,9 @@ export function Beers({
     if (resPerPage > data.length && diff > 0) return;
 
     setPage(page => page + diff);
-    saveConfig("perPage", currPage);
+    saveConfig("page", currPage);
     if (termSearching) search(termSearching);
-    else fetchData();
+    else fetchData()
   };
 
   return (
@@ -80,7 +80,7 @@ export function Beers({
             status !== "success" && status !== "failure" && !termSearching
           }
         >
-          cancel
+          { status === "success" ? 'reset' :'cancel'}  
         </button>
         <button
           type="button"
@@ -114,7 +114,7 @@ export function Beers({
 
       {status === "pending" && (
         <span className="App-spinner centered">
-          <img src={"/loader.gif"} alt="loading" />
+          <img src={"/loader.gif"} width="100%" alt="loading" />
         </span>
       )}
 
