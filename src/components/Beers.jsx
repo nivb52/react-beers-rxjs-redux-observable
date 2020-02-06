@@ -24,7 +24,7 @@ export function Beers({
   const itemsPerPage = perPage.split("=")[1] || 10;
 
   const [termSearching, setTermSearching] = useState(false);
-  const [page, setPage] = useState(1);
+  const [currPage, setPage] = useState(1);
   const [resPerPage, setResPerPage] = useState(itemsPerPage);
   const onSearch = e => {
     search(e.target.value);
@@ -42,11 +42,11 @@ export function Beers({
   };
 
   const onChangePage = diff => {
-    if (page < 2 && diff < 0) return;
+    if (currPage < 2 && diff < 0) return;
     if (resPerPage > data.length && diff > 0) return;
 
     setPage(page => page + diff);
-    saveConfig("perPage", page);
+    saveConfig("perPage", currPage);
     search(termSearching);
   };
 
@@ -95,7 +95,7 @@ export function Beers({
             <div
               className="change-page"
               onClick={() => onChangePage(-1)}
-              hidden={page < 2}
+              hidden={currPage < 2}
             >
               Previous
             </div>
