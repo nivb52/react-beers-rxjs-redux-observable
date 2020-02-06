@@ -70,7 +70,7 @@ export function searchBeerEpic(action$, state$) {
       // destructre values :
       Object.entries(params).map(([, v]) => spread.push(v));
       //define Ajax:
-      const ajax$ = ajax.getJSON(API_SEARCH(payload) + [...spread]).pipe(
+      const ajax$ = ajax.getJSON(API_SEARCH(payload) + [spread.join('')]).pipe(
         map(res => fetchFulfilled(res)),
         catchError(error => {
           return of(fetchFailed(error.response));

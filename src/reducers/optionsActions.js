@@ -7,6 +7,7 @@ export const OPTIONS_CACHE_KEY = "params";
 export const OPT = {};
 // AJAX STRING OPTIONS:
 OPT.perPage = "&per_page=";
+OPT.page = "&page=";
 OPT.firstBrewed = "firstBrewed";
 //
 // :::::::::::::::::::::::::::::::::::

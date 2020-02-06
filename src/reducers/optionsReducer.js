@@ -1,7 +1,7 @@
 import { SET_CONFIG, OPTIONS_CACHE_KEY } from "./optionsActions";
 
 const initialState = {
-  [OPTIONS_CACHE_KEY]: { perPage: "&per_page=10" } // default
+  [OPTIONS_CACHE_KEY]: {page:"&page=1" ,perPage: "&per_page=10" } // default
   // beerAPI ...
 };
 //   const keyString = OPT[key].split("=");
