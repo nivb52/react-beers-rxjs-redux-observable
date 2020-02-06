@@ -27,6 +27,11 @@ import { ofType } from "redux-observable";
 
 // API :
 const API_SEARCH = (api,term) => `${api}?beer_name=${encodeURIComponent(term)}`;
+const getFromOptions = (options) => {
+  const API = options.beerAPI;
+  const params = options[OPTIONS_CACHE_KEY]
+  return [API, params]
+}
 // CONST STREAMS
 const pending$ = of(setStatus(PENDING));
 
@@ -43,7 +48,7 @@ export function fetchRandomBeerEpic(action$, state$, { getJSON }) {
     switchMap(([a, options]) => {
       const params = options[OPTIONS_CACHE_KEY]
       const resaultsNum = params.perPage.split("=")[1];
-      const API = options.beerAPI;
+      const [API] = getFromOptions(options) // options.beerAPI
       // create 'waiting' ajax reuqests:
       const reqs = Array.from({ length: resaultsNum }).map(() => {
         // we get Array from the api and will use pluck to access it
@@ -71,8 +76,7 @@ export function searchBeerEpic(action$, state$, { getJSON }) {
     withLatestFrom(state$.pipe(pluck("OPTIONS"))),
     // we get action and state and we destructre action to payload
     switchMap(([{ payload }, options]) => {
-      const API = options.beerAPI;
-      const params = options[OPTIONS_CACHE_KEY]
+const [API,params] = getFromOptions(options)
       const spread = [];
       // destructre values :
       Object.entries(params).map(([, val]) => spread.push(val));
@@ -107,8 +111,7 @@ export function fetchBeerEpic(action$, state$, { getJSON }) {
     ofType(FETCH_RANDOM),
     withLatestFrom(state$.pipe(pluck("OPTIONS", ))),
     switchMap(([a, options]) => {
-      const API = options.beerAPI
-      const params = options[OPTIONS_CACHE_KEY]
+      const [API,params] = getFromOptions(options)
       const spread = [];
       Object.entries(params).map(([, v]) => spread.push(v));
       return concat(
