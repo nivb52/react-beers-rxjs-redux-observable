@@ -1,6 +1,7 @@
 export const FETCH_FULFILLED = "FETCH_FULIFILLED";
 export const FETCH_FAILED = "FETCH_FAILED";
 export const FETCH_DATA = "FECTH_DATA";
+export const FETCH_RANDOM = "FECTH_RANDOM";
 export const SET_STATUS = "SET_STATUS";
 // STATUS :
 export const SEARCH = "SEARCH";
@@ -49,5 +50,11 @@ export function fetchCancel() {
 export function fetchData() {
   return {
     type: FETCH_DATA
+  };
+}
+
+export function fetchRandom() {
+  return {
+    type: FETCH_RANDOM
   };
 }

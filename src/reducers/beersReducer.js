@@ -14,7 +14,7 @@ import {
 const initialState = {
   data: [],
   errors: [], // {text , code}
-  status: "idle" // "idle", "pending" , "succes" , "failure", "cancel"
+  status: "IDLE" // "idle", "pending" , "succes" , "failure", "cancel"
 };
 
 /// :::::::::::::::::::::::::::::::
@@ -32,7 +32,7 @@ export function beersReducer(state = initialState, action) {
     case FETCH_DATA:
       return {
         ...state,
-        status: "pending"
+        status: "PENDING"
       };
 
     case FETCH_FULFILLED:
@@ -40,7 +40,7 @@ export function beersReducer(state = initialState, action) {
         ...state,
         data: action.payload,
         errors: [],
-        status: "success"
+        status: "SUCCESS"
       };
 
     case FETCH_FAILED:
@@ -51,7 +51,7 @@ export function beersReducer(state = initialState, action) {
       return {
         ...state,
         errors: [{ text: message, code }],
-        status: "failure"
+        status: "FAILURE"
       };
 
     case SEARCH:
@@ -63,7 +63,7 @@ export function beersReducer(state = initialState, action) {
       return {
         ...state,
         errors: [],
-        status: "cancel",
+        status: "CANCEL",
       };
       
     default:

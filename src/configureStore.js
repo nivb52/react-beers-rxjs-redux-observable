@@ -9,6 +9,7 @@ import { optionsReducer } from "./reducers/optionsReducer";
 // EPICS :
 import {
   fetchBeerEpic,
+  fetchRandomBeerEpic,
   searchBeerEpic,
   resetBeerEpic
 } from "./epics/fetchBeers";
@@ -19,6 +20,7 @@ export function configureStore() {
     fetchBeerEpic,
     searchBeerEpic,
     resetBeerEpic,
+    fetchRandomBeerEpic,
     presistEpic,
     hydrateEpic
   );
