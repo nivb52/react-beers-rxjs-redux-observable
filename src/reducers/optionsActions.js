@@ -8,7 +8,6 @@ export const OPT = {};
 // AJAX STRING OPTIONS:
 OPT.perPage = "&per_page=";
 OPT.page = "&page=";
-OPT.firstBrewed = "firstBrewed";
 //
 // :::::::::::::::::::::::::::::::::::
 // action creator :
