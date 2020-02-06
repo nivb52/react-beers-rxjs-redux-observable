@@ -3,7 +3,9 @@
 ## Stuck :
 React, Redux, Redux-observable, RxJS
 
+SCREEN SHOT :
 
+<img src="beer-rxjs-redux-app.JPG" alt="screenshot of app">
 
 
 ## Available Scripts
