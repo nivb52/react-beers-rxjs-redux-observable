@@ -27,8 +27,6 @@
 }
 .App-inputs > * {
   margin: 0 2px;
-  transition: all ease-in 0.2s;
-  animation: padeIn;
 }
 
 .App-spinner {
