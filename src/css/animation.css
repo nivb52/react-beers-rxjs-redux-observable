@@ -7,3 +7,12 @@
     }
   }
   
+@keyframes fadeIn {
+    from {
+      transform: opacity(0);
+    }
+    to {
+      transform: opacity(100);
+    }
+  }
+  
