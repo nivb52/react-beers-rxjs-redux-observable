@@ -73,7 +73,7 @@ export function Beers({
       </div>
       {status === "pending" && (
         <span className="App-spinner centered">
-          <img src={"/loader.gif"} width="100" alt="loading" />
+          <img src={"/loader.gif"} alt="loading" />
         </span>
       )}
       {status === "success" && (
