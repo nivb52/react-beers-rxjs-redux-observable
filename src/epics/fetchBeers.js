@@ -8,7 +8,7 @@ import {
   setStatus,
   fetchCancel
 } from "../reducers/beersActions";
-import {OPTIONS_CACHE_KEY} from '../reducers/optionsActions'
+import { OPTIONS_CACHE_KEY } from "../reducers/optionsActions";
 // RXJS + REDUX
 import { of, concat, race } from "rxjs";
 import { ajax } from "rxjs/ajax";
@@ -63,15 +63,14 @@ export function searchBeerEpic(action$, state$) {
     debounceTime(500),
     filter(({ payload }) => payload.trim() !== ""),
     // pluck will get it from state->options->params which is a const
-    withLatestFrom(state$.pipe(pluck("OPTIONS",OPTIONS_CACHE_KEY))),
+    withLatestFrom(state$.pipe(pluck("OPTIONS", OPTIONS_CACHE_KEY))),
     // we get action and state and we destructre action to payload
     switchMap(([{ payload }, params]) => {
-      const spread = [] 
+      const spread = [];
       // destructre values :
-      Object.entries(params).map(([,v]) => spread.push(v))
+      Object.entries(params).map(([, v]) => spread.push(v));
       //define Ajax:
       const ajax$ = ajax.getJSON(API_SEARCH(payload) + [...spread]).pipe(
-        // define CANCEL option:
         map(res => fetchFulfilled(res)),
         catchError(error => {
           return of(fetchFailed(error.response));
