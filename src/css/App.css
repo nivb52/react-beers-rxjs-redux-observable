@@ -25,6 +25,9 @@
   border-bottom: 2px solid #d8d8d8;
   display: flex;
 }
+.App-inputs > * {
+  margin: 0 2px;
+}
 
 .App-spinner {
   margin-left: 10px;
