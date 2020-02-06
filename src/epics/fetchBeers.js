@@ -37,13 +37,16 @@ const pending$ = of(setStatus(PENDING));
 // stream of action functions :
 // each function get action$, state$
 // ::::::::::::::::
-export function fetchBeerEpic(action$) {
+export function fetchBeerEpic(action$, state$) {
   return action$.pipe(
     ofType(FETCH_DATA),
-    switchMap(() => {
+    withLatestFrom(state$.pipe(pluck("OPTIONS", OPTIONS_CACHE_KEY))),
+    switchMap(([a, params]) => {
+      const spread = [];
+      Object.entries(params).map(([, v]) => spread.push(v));
       return concat(
         pending$,
-        ajax.getJSON(API).pipe(
+        ajax.getJSON(API + [spread.join("")]).pipe(
           map(res => fetchFulfilled(res)),
           timeout(5000),
           catchError(err => {
@@ -70,7 +73,7 @@ export function searchBeerEpic(action$, state$) {
       // destructre values :
       Object.entries(params).map(([, v]) => spread.push(v));
       //define Ajax:
-      const ajax$ = ajax.getJSON(API_SEARCH(payload) + [spread.join('')]).pipe(
+      const ajax$ = ajax.getJSON(API_SEARCH(payload) + [spread.join("")]).pipe(
         map(res => fetchFulfilled(res)),
         catchError(error => {
           return of(fetchFailed(error.response));
@@ -82,7 +85,7 @@ export function searchBeerEpic(action$, state$) {
         mapTo(fetchCancel())
       );
       // get together : setStatus and the Ajax call
-      return race(ajax$, blocker$); // complete the chain immediately
+      return concat(pending$, race(ajax$, blocker$)); // complete the chain immediately
     })
   );
 }
@@ -90,7 +93,6 @@ export function searchBeerEpic(action$, state$) {
 export function resetBeerEpic(action$) {
   return action$.pipe(
     ofType(CANCEL),
-    delay(3000),
     switchMap(() => of(setStatus("idle")))
   );
 }
