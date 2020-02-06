@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { BeerList } from "./BeerList";
 // STORE :
-import { fetchData, search, fetchCancel } from "../reducers/beersActions";
+import { fetchRandom, search, fetchCancel } from "../reducers/beersActions";
 import { saveConfig } from "../reducers/optionsActions";
 
 // ::::::::::::::::::::
@@ -12,7 +12,7 @@ import { saveConfig } from "../reducers/optionsActions";
 export function Beers({
   data,
   status,
-  fetchData,
+  fetchRandom,
   fetchCancel,
   saveConfig,
   search,
@@ -49,7 +49,7 @@ export function Beers({
     setPage(page => page + diff);
     saveConfig("page", currPage);
     if (termSearching) search(termSearching);
-    else fetchData()
+    else fetchRandom()
   };
 
   return (
@@ -80,14 +80,14 @@ export function Beers({
             status !== "SUCCESS" && status !== "FAILURE" && !termSearching
           }
         >
-          { status === "SUCCESS" ? 'RESET' :'CANCEL'}  
+          { status === "SUCCESS" ? 'reset' :'cancel'}  
         </button>
         <button
           type="button"
-          onClick={fetchData}
+          onClick={fetchRandom}
           disabled={status === "PENDING"}
         >
-          get some beers!
+          get rendom beers!
         </button>
       </div>
       {status === "SUCCESS" && (
@@ -114,7 +114,7 @@ export function Beers({
 
       {status === "PENDING" && (
         <span className="App-spinner centered">
-          <img src={"/loader1.gif"} width="100px" alt="loading" />
+          <img src={"/beer-loader.gif"} alt="loading" />
         </span>
       )}
 
@@ -135,7 +135,7 @@ function mapState(state) {
 }
 
 export default connect(mapState, {
-  fetchData,
+  fetchRandom,
   search,
   fetchCancel,
   saveConfig
