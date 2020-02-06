@@ -49,4 +49,6 @@
   width: 50%;
   object-fit: cover;
   height: 300px;
+  transition: all ease-in-out 0.35s;
+  animation: fadeOut 0.3s ;
 }
