@@ -26,6 +26,7 @@ export function Beers({
   const [termSearching, setTermSearching] = useState(false);
   const [currPage, setPage] = useState(1);
   const [resPerPage, setResPerPage] = useState(itemsPerPage);
+
   const onSearch = e => {
     search(e.target.value);
     setTermSearching(e.target.value.trim());
@@ -47,7 +48,8 @@ export function Beers({
 
     setPage(page => page + diff);
     saveConfig("perPage", currPage);
-    search(termSearching);
+    if (termSearching) search(termSearching);
+    else fetchData();
   };
 
   return (
