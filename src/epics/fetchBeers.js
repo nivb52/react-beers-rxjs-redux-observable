@@ -24,10 +24,9 @@ import {
   pluck
 } from "rxjs/operators";
 import { ofType } from "redux-observable";
-// API :
-const API = `https://api.punkapi.com/v2/beers`;
-const API_SEARCH = term => `${API}?beer_name=${encodeURIComponent(term)}`;
 
+// API :
+const API_SEARCH = (api,term) => `${api}?beer_name=${encodeURIComponent(term)}`;
 // CONST STREAMS
 const pending$ = of(setStatus(PENDING));
 
@@ -40,9 +39,11 @@ const pending$ = of(setStatus(PENDING));
 export function fetchRandomBeerEpic(action$, state$, { getJSON }) {
   return action$.pipe(
     ofType(FETCH_RANDOM),
-    withLatestFrom(state$.pipe(pluck("OPTIONS", OPTIONS_CACHE_KEY))),
-    switchMap(([a, params]) => {
+    withLatestFrom(state$.pipe(pluck("OPTIONS"))),
+    switchMap(([a, options]) => {
+      const params = options[OPTIONS_CACHE_KEY]
       const resaultsNum = params.perPage.split("=")[1];
+      const API = options.beerAPI;
       // create 'waiting' ajax reuqests:
       const reqs = Array.from({ length: resaultsNum }).map(() => {
         // we get Array from the api and will use pluck to access it
@@ -67,14 +68,16 @@ export function searchBeerEpic(action$, state$, { getJSON }) {
     debounceTime(500),
     filter(({ payload }) => payload.trim() !== ""),
     // pluck will get it from state->options->params which is a const
-    withLatestFrom(state$.pipe(pluck("OPTIONS", OPTIONS_CACHE_KEY))),
+    withLatestFrom(state$.pipe(pluck("OPTIONS"))),
     // we get action and state and we destructre action to payload
-    switchMap(([{ payload }, params]) => {
+    switchMap(([{ payload }, options]) => {
+      const API = options.beerAPI;
+      const params = options[OPTIONS_CACHE_KEY]
       const spread = [];
       // destructre values :
       Object.entries(params).map(([, val]) => spread.push(val));
       //define Ajax:
-      const ajax$ = getJSON(API_SEARCH(payload) + [spread.join("")]).pipe(
+      const ajax$ = getJSON(API_SEARCH(API,payload) + [spread.join("")]).pipe(
         map(res => fetchFulfilled(res)),
         catchError(error => {
           return of(fetchFailed(error.response));
@@ -102,8 +105,10 @@ export function resetBeerEpic(action$) {
 export function fetchBeerEpic(action$, state$, { getJSON }) {
   return action$.pipe(
     ofType(FETCH_RANDOM),
-    withLatestFrom(state$.pipe(pluck("OPTIONS", OPTIONS_CACHE_KEY))),
-    switchMap(([a, params]) => {
+    withLatestFrom(state$.pipe(pluck("OPTIONS", ))),
+    switchMap(([a, options]) => {
+      const API = options.beerAPI
+      const params = options[OPTIONS_CACHE_KEY]
       const spread = [];
       Object.entries(params).map(([, v]) => spread.push(v));
       return concat(

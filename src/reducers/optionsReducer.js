@@ -1,11 +1,11 @@
 import { SET_CONFIG, OPTIONS_CACHE_KEY } from "./optionsActions";
 
 const initialState = {
+  beerAPI : `https://api.punkapi.com/v2/beers`,
   [OPTIONS_CACHE_KEY]: {page:"&page=1" ,perPage: "&per_page=10" } // default
-  // beerAPI ...
 };
-//   const keyString = OPT[key].split("=");
-//   console.log("keyString: ", keyString);
+
+
 export function optionsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CONFIG:

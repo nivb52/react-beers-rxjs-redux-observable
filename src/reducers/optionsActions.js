@@ -4,8 +4,8 @@ export const SET_CONFIG = "SET_CONFIG";
 export const OPTIONS = "OPTIONS";
 export const OPTIONS_CACHE_KEY = "params";
 
+// AJAX & STRING OPTIONS:
 export const OPT = {};
-// AJAX STRING OPTIONS:
 OPT.perPage = "&per_page=";
 OPT.page = "&page=";
 //
