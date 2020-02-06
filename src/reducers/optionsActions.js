@@ -2,7 +2,7 @@
 // TYPES :
 export const SET_CONFIG = "SET_CONFIG";
 export const OPTIONS = "OPTIONS";
-export const OPTIONS_CACHE_KEY = "ajaxOpts";
+export const OPTIONS_CACHE_KEY = "params";
 
 export const OPT = {};
 // AJAX STRING OPTIONS:

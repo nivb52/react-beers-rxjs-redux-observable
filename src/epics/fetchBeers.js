@@ -62,10 +62,10 @@ export function searchBeerEpic(action$, state$) {
     // waiting user stop type :
     debounceTime(500),
     filter(({ payload }) => payload.trim() !== ""),
-    withLatestFrom(state$.pipe(pluck("OPTIONS"))),
+    // pluck will get it from state->options->params which is a const
+    withLatestFrom(state$.pipe(pluck("OPTIONS",OPTIONS_CACHE_KEY))),
     // we get action and state and we destructre action to payload
-    switchMap(([{ payload }, opts]) => {
-      const {params} =  opts
+    switchMap(([{ payload }, params]) => {
       const spread = [] 
       // destructre values :
       Object.entries(params).map(([,v]) => spread.push(v))

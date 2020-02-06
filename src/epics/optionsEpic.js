@@ -5,9 +5,8 @@ import {
 import { withLatestFrom, pluck, tap, ignoreElements } from "rxjs/operators";
 import { ofType } from "redux-observable";
 import { of, EMPTY } from "rxjs";
-import {saveConfig} from '../reducers/optionsActions'
+import {saveConfig, OPTIONS_CACHE_KEY} from '../reducers/optionsActions'
 
-const OPTIONS_CACHE_KEY = "params";
 
 export function presistEpic(action$, state$) {
   return action$.pipe(
