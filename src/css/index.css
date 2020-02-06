@@ -13,11 +13,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 p {
   margin: 0;
   margin-bottom: 0.5em;
@@ -30,4 +25,13 @@ ul {
 
 button {
   text-transform: capitalize;
+}
+
+select {
+  padding: 1px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
