@@ -11,7 +11,6 @@ import {
 import { OPTIONS_CACHE_KEY } from "../reducers/optionsActions";
 // RXJS + REDUX
 import { of, concat, race, forkJoin } from "rxjs";
-import { ajax } from "rxjs/ajax";
 import {
   catchError,
   map,
@@ -36,7 +35,7 @@ const pending$ = of(setStatus(PENDING));
 // stream of action functions :
 // each function get action$, state$
 // ::::::::::::::::
-export function fetchRandomBeerEpic(action$, state$) {
+export function fetchRandomBeerEpic(action$, state$, {getJSON}) {
   return action$.pipe(
     ofType(FETCH_RANDOM),
     withLatestFrom(state$.pipe(pluck("OPTIONS", OPTIONS_CACHE_KEY))),
@@ -45,7 +44,7 @@ export function fetchRandomBeerEpic(action$, state$) {
       // create 'waiting' ajax reuqests: 
       const reqs =  Array.from({length: resaultsNum}).map(() => {
         // we get Array from the api and will use pluck to access it
-        return ajax.getJSON(API + '/random').pipe(pluck(0))
+        return getJSON(API + '/random').pipe(pluck(0))
       })
       const ajax$ = forkJoin(reqs).pipe(
           map(res => fetchFulfilled(res)),
@@ -62,7 +61,7 @@ export function fetchRandomBeerEpic(action$, state$) {
 }
 
 //added comments for others : but it just same logic as above
-export function searchBeerEpic(action$, state$) {
+export function searchBeerEpic(action$, state$, {getJSON}) {
   return action$.pipe(
     ofType(SEARCH), 
     debounceTime(500),
@@ -75,7 +74,7 @@ export function searchBeerEpic(action$, state$) {
       // destructre values :
       Object.entries(params).map(([, val]) => spread.push(val));
       //define Ajax:
-      const ajax$ = ajax.getJSON(API_SEARCH(payload) +[spread.join("")]).pipe(
+      const ajax$ = getJSON(API_SEARCH(payload) +[spread.join("")]).pipe(
         map(res => fetchFulfilled(res)),
         catchError(error => {
           return of(fetchFailed(error.response));
@@ -100,7 +99,7 @@ export function resetBeerEpic(action$) {
 }
 
 // THE OLD fetchBeerEpic function. with no random
-export function fetchBeerEpic(action$, state$) {
+export function fetchBeerEpic(action$, state$, {getJSON}) {
   return action$.pipe(
     ofType(FETCH_RANDOM),
     withLatestFrom(state$.pipe(pluck("OPTIONS", OPTIONS_CACHE_KEY))),
@@ -109,7 +108,7 @@ export function fetchBeerEpic(action$, state$) {
       Object.entries(params).map(([, v]) => spread.push(v));
       return concat(
         pending$,
-        ajax.getJSON(API + '?'+ [spread.join("")]).pipe(
+        getJSON(API + '?'+ [spread.join("")]).pipe(
           map(res => fetchFulfilled(res)),
           timeout(5000),
           catchError(err => {

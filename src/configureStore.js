@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { combineEpics, createEpicMiddleware } from "redux-observable";
-
+import{ajax} from 'rxjs/ajax';
 // import reducer:
 import { appReducer } from "./reducers/appReducer";
 import { beersReducer } from "./reducers/beersReducer";
@@ -15,7 +15,9 @@ import {
 } from "./epics/fetchBeers";
 import { presistEpic, hydrateEpic } from "./epics/optionsEpic";
 
-export function configureStore() {
+export function configureStore(dependencies = {}) {
+
+  
   const rootEpic = combineEpics(
     fetchBeerEpic,
     searchBeerEpic,
@@ -25,7 +27,12 @@ export function configureStore() {
     hydrateEpic
   );
 
-  const epicMiddleware = createEpicMiddleware();
+  const epicMiddleware = createEpicMiddleware({
+    dependencies: {
+      getJSON: ajax.getJSON,
+      ...dependencies
+    }
+  });
 
   const rootReducer = combineReducers({
     app: appReducer,
