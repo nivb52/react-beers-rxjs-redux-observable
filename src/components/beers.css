@@ -44,3 +44,9 @@
   color: #fff;
   background-color: #000;
 }
+
+.beer-loader {
+  width: 50%;
+  object-fit: cover;
+  height: 300px;
+}
