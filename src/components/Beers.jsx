@@ -3,13 +3,21 @@ import "./beers.css";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { BeerList } from "./BeerList";
-import {
-  fetchData,
-   search, fetchCancel,
-   presistConfig
-} from "../reducers/beersActions";
+// STORE :
+import { fetchData, search, fetchCancel } from "../reducers/beersActions";
+import { saveConfig } from "../reducers/optionsActions";
 
-export function Beers({ data, status, fetchData, fetchCancel, presistConfig,  search, errors }) {
+// ::::::::::::::::::::
+// THE COMPONENT  : 
+export function Beers({
+  data,
+  status,
+  fetchData,
+  fetchCancel,
+  saveConfig,
+  search,
+  errors
+}) {
   //::::::::::
   const [isSearching, setIsSearching] = useState(false);
 
@@ -19,12 +27,12 @@ export function Beers({ data, status, fetchData, fetchCancel, presistConfig,  se
   };
 
   const cancel = () => {
-    fetchCancel()
+    fetchCancel();
     setIsSearching(false);
   };
 
   const onSelect = number => {
-    presistConfig('perPage',number);
+    saveConfig("perPage", number);
   };
 
   return (
@@ -35,7 +43,7 @@ export function Beers({ data, status, fetchData, fetchCancel, presistConfig,  se
           defaultValue={10}
           onChange={e => onSelect(e.target.value)}
         >
-          { Array.from({length: 10}, (v, i) => (i+1) * 5).map(value => {
+          {Array.from({ length: 10 }, (v, i) => (i + 1) * 5).map(value => {
             return (
               <option key={value} value={value}>
                 {value} results
@@ -80,8 +88,16 @@ export function Beers({ data, status, fetchData, fetchCancel, presistConfig,  se
   );
 }
 
-export default connect(state => state.beers, {
+function mapState(state) {
+  return {
+    ...state.beers,
+    presist: state.presist
+  }
+}
+
+export default connect(mapState, {
   fetchData,
-  search, fetchCancel,
-  presistConfig
+  search,
+  fetchCancel,
+  saveConfig
 })(Beers);

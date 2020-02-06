@@ -7,10 +7,7 @@ export const SEARCH = "SEARCH";
 export const CANCEL = "CANCEL";
 export const RESET = "RESET";
 export const PENDING = "PENDING";
-// CONFIG :
-export const CONFIG = "CONFIG";
-export const OPTIONS = {};
-OPTIONS.perPage = "perPage";
+
 
 // :::::::::::::::::::::::::::::::::::
 // action creator :
@@ -21,12 +18,6 @@ export function search(term) {
   };
 }
 
-export function presistConfig(key,value = null) {
-  return {
-    type: CONFIG,
-    payload: [key,value]
-  };
-}
 
 export function fetchFulfilled(beers) {
   return {

@@ -3,13 +3,13 @@ import {
   FETCH_DATA,
   SEARCH,
   PENDING,
-  CONFIG,
-  OPTIONS,
   CANCEL,
   fetchFailed,
   setStatus,
   fetchCancel
 } from "../reducers/beersActions";
+import {OPT} from '../reducers/optionsActions'
+// RXJS + REDUX
 import { of, concat, race } from "rxjs";
 import { ajax } from "rxjs/ajax";
 import {
@@ -23,14 +23,12 @@ import {
   take,
   withLatestFrom,
   pluck,
-  tap,
-  ignoreElements
+  delay
 } from "rxjs/operators";
 import { ofType } from "redux-observable";
 // API :
 const API = `https://api.punkapi.com/v2/beers?`;
 const API_SEARCH = term => `${API}&beer_name=${encodeURIComponent(term)}`;
-const PER_PAGE = `&per_page=`;
 
 // CONST STREAMS
 const pending$ = of(setStatus(PENDING));
@@ -64,11 +62,11 @@ export function searchBeerEpic(action$, state$) {
     // waiting user stop type :
     debounceTime(500),
     filter(({ payload }) => payload.trim() !== ""),
-    withLatestFrom(state$.pipe(pluck("beers", [OPTIONS.perPage]))),
+    withLatestFrom(state$.pipe(pluck("OPTIONS", [OPT.perPage]))),
     // we get action and state and we destructre action to payload
-    switchMap(([{ payload }, n]) => {
+    switchMap(([{ payload }, options]) => {
       //define Ajax:
-      const ajax$ = ajax.getJSON(API_SEARCH(payload) + PER_PAGE + n).pipe(
+      const ajax$ = ajax.getJSON(API_SEARCH(payload) + options).pipe(
         // define CANCEL option:
         map(res => fetchFulfilled(res)),
         catchError(error => {
@@ -89,17 +87,7 @@ export function searchBeerEpic(action$, state$) {
 export function resetBeerEpic(action$) {
   return action$.pipe(
     ofType(CANCEL),
+    delay(3000),
     switchMap(() => of(setStatus("idle")))
-  );
-}
-
-export function presistConfigEpic(action$, state$) {
-  return action$.pipe(
-    ofType(CONFIG),
-    withLatestFrom(state$.pipe(pluck("beers", [OPTIONS.perPage]))),
-    tap(([{payload}, options]) => {
-      localStorage.setItem(payload[0], JSON.stringify(options));
-    }),
-    ignoreElements()
   );
 }

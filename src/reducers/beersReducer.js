@@ -5,8 +5,6 @@ import {
   FETCH_DATA,
   SET_STATUS,
   CANCEL,
-  CONFIG,
-  OPTIONS
 } from "./beersActions";
 
 
@@ -16,7 +14,6 @@ import {
 const initialState = {
   data: [],
   errors: [], // {text , code}
-  [OPTIONS.perPage]: 10,
   status: "idle" // "idle", "pending" , "succes" , "failure", "cancel"
 };
 
@@ -60,13 +57,6 @@ export function beersReducer(state = initialState, action) {
     case SEARCH:
       return {
         ...state
-      };
-
-    case CONFIG:
-      const [key , value] = action.payload
-      return {
-        ...state,
-        [key]: value
       };
 
     case CANCEL:

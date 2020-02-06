@@ -4,28 +4,31 @@ import { combineEpics, createEpicMiddleware } from "redux-observable";
 // import reducer:
 import { appReducer } from "./reducers/appReducer";
 import { beersReducer } from "./reducers/beersReducer";
+import { optionsReducer } from "./reducers/optionsReducer";
 
-
+// EPICS :
 import {
   fetchBeerEpic,
   searchBeerEpic,
-  resetBeerEpic,
-  presistConfigEpic
+  resetBeerEpic
 } from "./epics/fetchBeers";
+import { presistEpic, hydrateEpic } from "./epics/optionsEpic";
 
 export function configureStore() {
   const rootEpic = combineEpics(
     fetchBeerEpic,
     searchBeerEpic,
     resetBeerEpic,
-    presistConfigEpic
+    presistEpic,
+    hydrateEpic
   );
 
   const epicMiddleware = createEpicMiddleware();
 
   const rootReducer = combineReducers({
     app: appReducer,
-    beers: beersReducer
+    beers: beersReducer,
+    OPTIONS: optionsReducer
   });
 
   const composeEnhancers =
