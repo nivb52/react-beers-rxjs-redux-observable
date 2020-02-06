@@ -77,20 +77,20 @@ export function Beers({
           type="button"
           onClick={() => cancel()}
           hidden={
-            status !== "success" && status !== "failure" && !termSearching
+            status !== "SUCCESS" && status !== "FAILURE" && !termSearching
           }
         >
-          { status === "success" ? 'reset' :'cancel'}  
+          { status === "SUCCESS" ? 'RESET' :'CANCEL'}  
         </button>
         <button
           type="button"
           onClick={fetchData}
-          disabled={status === "pending"}
+          disabled={status === "PENDING"}
         >
           get some beers!
         </button>
       </div>
-      {status === "success" && (
+      {status === "SUCCESS" && (
         <div className="App-content">
           {data && <BeerList beers={data} />}
           <div className="list-pagination">
@@ -112,13 +112,13 @@ export function Beers({
         </div>
       )}
 
-      {status === "pending" && (
+      {status === "PENDING" && (
         <span className="App-spinner centered">
-          <img src={"/loader.gif"} width="100%" alt="loading" />
+          <img src={"/loader1.gif"} width="100px" alt="loading" />
         </span>
       )}
 
-      {status === "failure" && (
+      {status === "FAILURE" && (
         <div className="App-content centered">
           <p> Oops! {errors && errors[0] && errors[0].text} </p>
         </div>
