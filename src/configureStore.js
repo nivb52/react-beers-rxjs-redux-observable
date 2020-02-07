@@ -41,7 +41,8 @@ export function configureStore(dependencies = {}) {
   });
 
   const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+  (window.location.host !== 'localhost') ? compose : 
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
       trace: true,
       traceLimit: 25
     }) || compose;
