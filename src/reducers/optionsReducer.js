@@ -12,9 +12,10 @@ export function optionsReducer(state = initialState, action) {
       if (!action.payload || !action.payload[0]) return { ...state };
       let [optKey, value] = action.payload;
       return {
-        params: {
+        ...state,
+        [OPTIONS_CACHE_KEY]: {
           ...state[OPTIONS_CACHE_KEY],
-          [optKey]: value
+          [optKey]: value // override key
         }
       };
 
