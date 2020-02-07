@@ -79,6 +79,6 @@ export function resetBeerEpic(action$) {
   return action$.pipe(
     ofType(CANCEL),
     switchMap(() =>
-    of(setStatus('idle'))
+    of(setStatus('IDLE'))
     ))
   }
