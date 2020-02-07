@@ -7,18 +7,21 @@ import { setStatus, fetchFulfilled , search, PENDING} from "../../reducers/beers
 import { of } from "rxjs";
 import { TestScheduler } from "rxjs/testing";
 
-it("produces correct actions", function() {
+it("produces correct actions (success)", function() {
     const testScheduler = new TestScheduler((actual, expected) => {
         expect(actual).toEqual(expected);
     });
 
     testScheduler.run(({ hot, cold, expectObservable }) => {
+        // user activate this action of the store:
         const action$ = hot('a', {
             a: search("beer")
         });
+        // the current state to pass the function:
         const state$ = of({
             [OPTIONS]: initialState
         });
+        // test dependencies
         const dependencies = {
             getJSON: (url) => {
                 // cold obser for dependencies
@@ -34,3 +37,17 @@ it("produces correct actions", function() {
         })
     })
 });
+
+
+it("produces correct actions (failure) ", () => {
+    const ts = new TestScheduler( (actual, expected) => {
+        expected(actual).toEqual(expected)
+    })
+
+    ts.run( ({hot, cold, expectObservable}) => {
+        const action$ =  hot('a', {a : search("beer")})
+        const state$
+        const dependencies 
+    }
+    )
+}
