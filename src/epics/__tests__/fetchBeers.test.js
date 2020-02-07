@@ -7,13 +7,14 @@ import {
   fetchFulfilled,
   search,
   PENDING,
-  fetchFailed
+  fetchFailed,
+  fetchCancel
 } from "../../reducers/beersActions";
 // node modules imports
 import { of } from "rxjs";
 import { TestScheduler } from "rxjs/testing";
 
-it("produces search actions (success)", function() {
+it("produces search action (success)", function() {
   const testScheduler = new TestScheduler((actual, expected) => {
     expect(actual).toEqual(expected);
   });
@@ -44,7 +45,7 @@ it("produces search actions (success)", function() {
   });
 });
 
-it("produces search actions (failure) ", () => {
+it("produces search action (failure) ", () => {
   const ts = new TestScheduler((actual, expected) => {
     expect(actual).toEqual(expected);
   });
@@ -69,6 +70,32 @@ it("produces search actions (failure) ", () => {
     expectObservable(output$).toBe("500ms ab", {
       a: setStatus(PENDING),
       b: fetchFailed({ message: "some error text" })
+    });
+  });
+});
+
+it("produces search action (cancel) ", () => {
+  const ts = new TestScheduler((actual, expected) => {
+    expect(actual).toEqual(expected);
+  });
+
+  ts.run(({ hot, cold, expectObservable }) => {
+    const action$ = hot("a 500ms b", {
+      a: search("beer"),
+      b: fetchCancel()
+    });
+    const state$ = of({
+      [OPTIONS]: initialState
+    });
+    const dependencies = {
+      getJSON: url => {
+        return cold("---a");
+      }
+    };
+    const output$ = searchBeerEpic(action$, state$, dependencies);
+    expectObservable(output$).toBe("500ms ab", {
+      a: setStatus(PENDING),
+      b: fetchCancel()
     });
   });
 });
