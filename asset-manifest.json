@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/react-beers-rxjs-redux-observable/static/css/main.19400fc1.chunk.css",
+    "main.js": "/react-beers-rxjs-redux-observable/static/js/main.516bfd4e.chunk.js",
+    "main.js.map": "/react-beers-rxjs-redux-observable/static/js/main.516bfd4e.chunk.js.map",
+    "runtime-main.js": "/react-beers-rxjs-redux-observable/static/js/runtime-main.1d96af62.js",
+    "runtime-main.js.map": "/react-beers-rxjs-redux-observable/static/js/runtime-main.1d96af62.js.map",
+    "static/js/2.2d4d2a96.chunk.js": "/react-beers-rxjs-redux-observable/static/js/2.2d4d2a96.chunk.js",
+    "static/js/2.2d4d2a96.chunk.js.map": "/react-beers-rxjs-redux-observable/static/js/2.2d4d2a96.chunk.js.map",
+    "index.html": "/react-beers-rxjs-redux-observable/index.html",
+    "precache-manifest.c690dff2b26cd55c8f922129911905e7.js": "/react-beers-rxjs-redux-observable/precache-manifest.c690dff2b26cd55c8f922129911905e7.js",
+    "service-worker.js": "/react-beers-rxjs-redux-observable/service-worker.js",
+    "static/css/main.19400fc1.chunk.css.map": "/react-beers-rxjs-redux-observable/static/css/main.19400fc1.chunk.css.map",
+    "static/js/2.2d4d2a96.chunk.js.LICENSE.txt": "/react-beers-rxjs-redux-observable/static/js/2.2d4d2a96.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1d96af62.js",
+    "static/js/2.2d4d2a96.chunk.js",
+    "static/css/main.19400fc1.chunk.css",
+    "static/js/main.516bfd4e.chunk.js"
+  ]
+}
