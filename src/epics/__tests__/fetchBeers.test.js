@@ -88,6 +88,7 @@ it("produces search action (cancel) ", () => {
       [OPTIONS]: initialState
     });
     const dependencies = {
+      // after 3 frames
       getJSON: url => {
         return cold("---a");
       }
