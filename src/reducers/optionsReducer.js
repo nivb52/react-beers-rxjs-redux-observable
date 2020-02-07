@@ -1,6 +1,6 @@
 import { SET_CONFIG, OPTIONS_CACHE_KEY } from "./optionsActions";
 
-const initialState = {
+export const initialState = {
   beerAPI : `https://api.punkapi.com/v2/beers`,
   [OPTIONS_CACHE_KEY]: {page:"&page=1" ,perPage: "&per_page=10" } // default
 };
