@@ -68,7 +68,7 @@ it("produces search actions (failure) ", () => {
     const output$ = searchBeerEpic(action$, state$, dependencies);
     expectObservable(output$).toBe("500ms ab", {
       a: setStatus(PENDING),
-      b: fetchFailed({ text: "some error text" })
+      b: fetchFailed({ message: "some error text" })
     });
   });
 });
