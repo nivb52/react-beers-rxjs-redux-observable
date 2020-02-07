@@ -120,7 +120,7 @@ export function Beers({
 
       {status === "FAILURE" && (
         <div className="App-content centered">
-          <p> Oops! {errors && errors[0] && errors[0].text} </p>
+          <p> Oops! {errors && errors[0] && errors[0].message} </p>
         </div>
       )}
     </>

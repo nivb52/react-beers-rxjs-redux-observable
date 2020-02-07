@@ -50,7 +50,7 @@ export function beersReducer(state = initialState, action) {
           : { message: "unknown error, check your connection", code: "000" };
       return {
         ...state,
-        errors: [{ text: message, code }],
+        errors: [{ message, code }],
         status: "FAILURE"
       };
 
