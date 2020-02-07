@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "35ff1970ee1e94478a87f5876adbf2a8",
+    "revision": "e473de02c3e9c3c632d8bfaa28a81dbf",
     "url": "/react-beers-rxjs-redux-observable/index.html"
   },
   {
-    "revision": "0d82cfa8cf854739793d",
+    "revision": "271c9fa9d161aace3893",
     "url": "/react-beers-rxjs-redux-observable/static/css/main.19400fc1.chunk.css"
   },
   {
-    "revision": "21f24842f4e8026c17d6",
-    "url": "/react-beers-rxjs-redux-observable/static/js/2.2d4d2a96.chunk.js"
+    "revision": "7ffaf13f36c83131f604",
+    "url": "/react-beers-rxjs-redux-observable/static/js/2.df5345f6.chunk.js"
   },
   {
     "revision": "0bdc4f0d8b3d84ae6a73bb9902b479ee",
-    "url": "/react-beers-rxjs-redux-observable/static/js/2.2d4d2a96.chunk.js.LICENSE.txt"
+    "url": "/react-beers-rxjs-redux-observable/static/js/2.df5345f6.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "0d82cfa8cf854739793d",
-    "url": "/react-beers-rxjs-redux-observable/static/js/main.516bfd4e.chunk.js"
+    "revision": "271c9fa9d161aace3893",
+    "url": "/react-beers-rxjs-redux-observable/static/js/main.cbd0d037.chunk.js"
   },
   {
     "revision": "4d17c1022eb79db6a7a8",
