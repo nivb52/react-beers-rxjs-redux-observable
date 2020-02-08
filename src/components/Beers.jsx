@@ -6,6 +6,9 @@ import { BeerList } from "./BeerList";
 // STORE :
 import { fetchRandom, search, fetchCancel } from "../reducers/beersActions";
 import { saveConfig } from "../reducers/optionsActions";
+const urlFix = window.location.hostname === 'localhost' ?
+'' : '/'+ document.location.href.split('/')[3] + '/'
+
 
 // ::::::::::::::::::::
 // THE COMPONENT  :
@@ -114,7 +117,7 @@ export function Beers({
 
       {status === "PENDING" && (
         <span className="App-spinner centered">
-          <img src={window.location.origin +"/beer-loader.gif"} className="beer-loader" alt="loading" />
+          <img src={urlFix+"/beer-loader.gif"} className="beer-loader" alt="loading" />
         </span>
       )}
 
