@@ -38,6 +38,7 @@
   border: rgba(0, 0, 0, 0.3) solid 3px;
   padding: 5px 10%;
   transition: all ease-in-out 0.3s;
+  text-align: center;
 }
 
 .App-content .list-pagination > .change-page:hover {
