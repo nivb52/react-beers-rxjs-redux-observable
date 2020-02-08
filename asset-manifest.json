@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/react-beers-rxjs-redux-observable/static/css/main.19400fc1.chunk.css",
-    "main.js": "/react-beers-rxjs-redux-observable/static/js/main.398dce85.chunk.js",
-    "main.js.map": "/react-beers-rxjs-redux-observable/static/js/main.398dce85.chunk.js.map",
+    "main.js": "/react-beers-rxjs-redux-observable/static/js/main.ca2fb839.chunk.js",
+    "main.js.map": "/react-beers-rxjs-redux-observable/static/js/main.ca2fb839.chunk.js.map",
     "runtime-main.js": "/react-beers-rxjs-redux-observable/static/js/runtime-main.1d96af62.js",
     "runtime-main.js.map": "/react-beers-rxjs-redux-observable/static/js/runtime-main.1d96af62.js.map",
     "static/js/2.9db10a97.chunk.js": "/react-beers-rxjs-redux-observable/static/js/2.9db10a97.chunk.js",
     "static/js/2.9db10a97.chunk.js.map": "/react-beers-rxjs-redux-observable/static/js/2.9db10a97.chunk.js.map",
     "index.html": "/react-beers-rxjs-redux-observable/index.html",
-    "precache-manifest.a6ae9283a39dd5216d38a382c80d2597.js": "/react-beers-rxjs-redux-observable/precache-manifest.a6ae9283a39dd5216d38a382c80d2597.js",
+    "precache-manifest.7bc69913d8372a22e34118d8ae54d4b4.js": "/react-beers-rxjs-redux-observable/precache-manifest.7bc69913d8372a22e34118d8ae54d4b4.js",
     "service-worker.js": "/react-beers-rxjs-redux-observable/service-worker.js",
     "static/css/main.19400fc1.chunk.css.map": "/react-beers-rxjs-redux-observable/static/css/main.19400fc1.chunk.css.map",
     "static/js/2.9db10a97.chunk.js.LICENSE.txt": "/react-beers-rxjs-redux-observable/static/js/2.9db10a97.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.1d96af62.js",
     "static/js/2.9db10a97.chunk.js",
     "static/css/main.19400fc1.chunk.css",
-    "static/js/main.398dce85.chunk.js"
+    "static/js/main.ca2fb839.chunk.js"
   ]
 }
