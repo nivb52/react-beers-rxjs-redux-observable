@@ -114,7 +114,7 @@ export function Beers({
 
       {status === "PENDING" && (
         <span className="App-spinner centered">
-          <img src={"/beer-loader.gif"} className="beer-loader" alt="loading" />
+          <img src={window.location.origin +"/beer-loader.gif"} className="beer-loader" alt="loading" />
         </span>
       )}
 
