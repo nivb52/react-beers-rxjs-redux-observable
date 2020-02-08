@@ -7,7 +7,7 @@ import { BeerList } from "./BeerList";
 import { fetchRandom, search, fetchCancel } from "../reducers/beersActions";
 import { saveConfig } from "../reducers/optionsActions";
 const urlFix = window.location.hostname === 'localhost' ?
-'' : '/'+ document.location.href.split('/')[3] + '/'
+'' : '/'+ document.location.pathname.split('/')[1] + '/'
 
 
 // ::::::::::::::::::::
